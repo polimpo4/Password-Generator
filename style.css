@@ -1,102 +1,46 @@
-:root {
-    --background: #5e48b054;
-    --background-borda: #131D41;
-    --background-button: #142b559e;
-    --background-buttonhover: #142B55;
+.exposure-check {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
 }
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    background-image: url('https://r4.wallpaperflare.com/wallpaper/457/139/736/artwork-digital-art-space-galaxy-wallpaper-831eb40c9230874c718203fd5e957828.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-.container {
-    background: var(--background);
-    backdrop-filter: blur(4px);
-    color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 3px solid var(--background-borda);
-    border-radius: 10px;
-    max-width: 600px;
-    width: 100%;
-}
-.container h1 {
-    margin-bottom: 20px;
-    text-align: center;
-}
-.container label {
-    display: block;
-    margin: 15px 0 10px;
-}
-.options {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 10px;
-}
-.options div {
-    flex: 1;
-}
-.options div:not(:last-child) {
-    margin-right: 90px;
-}
-.container button {
 
-    background: var(--background-button);
-    backdrop-filter: blur(4px);
-    color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--background-borda);
-    border-radius: 10px;
+.exposure-check h2 {
+  margin-top: 0;
+}
 
-    padding: 10px;
-    cursor: pointer;
-    display: block;
-    width: 50%;
-    margin: 20px auto 0;
+.exposure-check label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
 
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.exposure-input-group {
+  display: flex;
+  gap: 0.5rem;
 }
-.container button:hover {
-    background: var(--background-buttonhover);
-    transition: .5s;
+
+.exposure-input-group input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid #9ca3af;
+  border-radius: 6px;
 }
-.container .password-output {
-    margin: 20px auto 10px;
-    padding: 15px;
-    width: 50%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid var(--background-borda);
-    background: var(--background-button);
-    color: white;
-    font-weight: bold;
-    word-break: break-all;
-    text-align: center;
+
+.exposure-check button {
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
 }
-.hidden {
-    display: none;
+
+.exposure-check button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
-.range-container {
-    display: flex;
-    align-items: center;
-}
-.range-container input {
-    margin-left: 10px;
-    flex: 1;
-}
-.range-value {
-    margin-left: 10px;
-    min-width: 30px;
-    text-align: center;
+
+#exposure-status {
+  overflow-wrap: anywhere;
 }
