@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Gerador de Senhas</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Gerador de Senhas</h1>
-        <div class="password-output hidden" id="password-output"></div>
-        <div class="options">
-            <div>
-                <label for="length">Número de caracteres da senha:</label>
-                <div class="range-container">
-                    <input type="range" id="length" min="1" max="50" value="12" oninput="updateLengthValue(this.value)">
-                    <span id="length-value" class="range-value">12</span>
-                </div>
-                
-                <label><input type="checkbox" id="pronounceable"> Fácil de pronunciar</label>
-                <label><input type="checkbox" id="readable"> Fácil de ler</label>
-                <label><input type="checkbox" id="all-chars" checked> Todos os caracteres</label>
-            </div>
-            
-            <div>
-                <label><input type="checkbox" id="uppercase" checked> Letras maiúsculas</label>
-                <label><input type="checkbox" id="lowercase" checked> Letras minúsculas</label>
-                <label><input type="checkbox" id="numbers" checked> Números</label>
-                <label><input type="checkbox" id="symbols" checked> Símbolos</label>
-            </div>
-        </div>
-        
-        <button onclick="generatePassword()">Gerar Senha</button>
+<section class="exposure-check" aria-labelledby="exposure-title">
+  <h2 id="exposure-title">Verificar exposição de senha</h2>
+
+  <p>
+    Verifica se esta senha consta na base de dados de senhas expostas,
+    sem enviar a senha original.
+  </p>
+
+  <form id="exposure-form">
+    <label for="exposure-password">Senha a verificar</label>
+
+    <div class="exposure-input-group">
+      <input
+        id="exposure-password"
+        type="password"
+        autocomplete="off"
+        spellcheck="false"
+        required
+        aria-describedby="exposure-help"
+        placeholder="Introduz uma senha"
+      />
+
+      <button id="exposure-toggle" type="button"
+        aria-label="Mostrar senha">
+        Mostrar
+      </button>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <p id="exposure-help">
+      A verificação só começa quando carregares no botão.
+    </p>
+
+    <button id="exposure-submit" type="submit">
+      Verificar exposição
+    </button>
+
+    <p id="exposure-status" role="status" aria-live="polite"></p>
+  </form>
+</section>
