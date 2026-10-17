@@ -1,39 +1,115 @@
-<section class="exposure-check" aria-labelledby="exposure-title">
-  <h2 id="exposure-title">Verificar exposição de senha</h2>
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071426">
+  <title>Password Generator — Patao</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 48 56"><path d="M24 3 43 11v15c0 12-8 20-19 27C13 46 5 38 5 26V11L24 3Z" fill="none" stroke="currentColor" stroke-width="5"/><path d="M24 10 36 15v11c0 8-5 14-12 19" fill="none" stroke="currentColor" stroke-width="3" opacity=".55"/></svg></div>
+    <div><h1>Password Generator</h1><p>Gera senhas seguras e verifica se já foram expostas.</p></div>
+  </header>
 
-  <p>
-    Verifica se esta senha consta na base de dados de senhas expostas,
-    sem enviar a senha original.
-  </p>
+  <main class="workspace">
+    <section class="panel generator-panel" aria-labelledby="generator-title">
+      <div class="section-heading">
+        <div class="round-icon cube">◇</div>
+        <div><h2 id="generator-title">Gerador de Senhas</h2><p>Cria uma senha segura com as tuas preferências.</p></div>
+      </div>
 
-  <form id="exposure-form">
-    <label for="exposure-password">Senha a verificar</label>
+      <div class="password-output">
+        <input id="generated-password" aria-label="Senha gerada" readonly spellcheck="false" value="">
+        <button class="icon-button" id="toggle-generated" type="button" aria-label="Mostrar senha" title="Mostrar/ocultar"><span id="generated-eye">◉</span></button>
+        <button class="icon-button copy-icon" id="copy-generated" type="button" aria-label="Copiar senha" title="Copiar">▢</button>
+      </div>
+      <p class="inline-status" id="generator-status" role="status" aria-live="polite"></p>
 
-    <div class="exposure-input-group">
-      <input
-        id="exposure-password"
-        type="password"
-        autocomplete="off"
-        spellcheck="false"
-        required
-        aria-describedby="exposure-help"
-        placeholder="Introduz uma senha"
-      />
+      <div class="control-block length-block">
+        <div class="label-line"><label for="length-number">Comprimento da senha</label><span>5 – 128 caracteres</span></div>
+        <div class="length-controls">
+          <input id="length-number" type="number" min="5" max="128" value="16" inputmode="numeric">
+          <input id="length-range" type="range" min="5" max="128" value="16" aria-label="Comprimento da senha">
+        </div>
+      </div>
 
-      <button id="exposure-toggle" type="button"
-        aria-label="Mostrar senha">
-        Mostrar
-      </button>
-    </div>
+      <div class="control-block">
+        <div class="block-label">Tipos de caracteres</div>
+        <div class="checkbox-grid">
+          <label class="check"><input id="uppercase" type="checkbox" checked><span class="custom-check"></span><span>Letras maiúsculas (A-Z)</span></label>
+          <label class="check"><input id="lowercase" type="checkbox" checked><span class="custom-check"></span><span>Letras minúsculas (a-z)</span></label>
+          <label class="check"><input id="numbers" type="checkbox" checked><span class="custom-check"></span><span>Números (0-9)</span></label>
+          <label class="check"><input id="symbols" type="checkbox" checked><span class="custom-check"></span><span>Caracteres especiais (!@#...)</span></label>
+        </div>
+        <div class="requirements-grid">
+          <div class="field"><label for="min-numbers">Mín. de números</label><input id="min-numbers" type="number" min="0" max="128" value="2"></div>
+          <div class="field"><label for="min-symbols">Mín. de caracteres especiais</label><input id="min-symbols" type="number" min="0" max="128" value="2"></div>
+          <label class="check ambiguous"><input id="exclude-ambiguous" type="checkbox"><span class="custom-check"></span><span>Excluir caracteres ambíguos <small>I, l, 1, O e 0</small></span></label>
+        </div>
+      </div>
 
-    <p id="exposure-help">
-      A verificação só começa quando carregares no botão.
-    </p>
+      <div class="strength-row">
+        <div class="strength">
+          <div class="metric-title">Força estimada <span title="Estimativa teórica; não é uma garantia de segurança.">ⓘ</span></div>
+          <div class="meter"><span id="strength-meter"></span></div>
+          <strong id="strength-label">Forte</strong>
+        </div>
+        <div class="entropy">
+          <div class="metric-title">Entropia estimada <span title="Estimativa baseada no conjunto de caracteres e comprimento.">ⓘ</span></div>
+          <strong id="entropy-value">~ 95 bits</strong>
+          <small>(com base no comprimento e nos caracteres selecionados)</small>
+        </div>
+      </div>
 
-    <button id="exposure-submit" type="submit">
-      Verificar exposição
-    </button>
+      <button class="primary-button generate-button" id="generate" type="button"><span>⟳</span> Gerar nova senha</button>
+      <p class="footnote">A senha é gerada localmente no teu navegador e não é guardada.</p>
+    </section>
 
-    <p id="exposure-status" role="status" aria-live="polite"></p>
-  </form>
-</section>
+    <section class="panel exposure-panel" aria-labelledby="exposure-title">
+      <div class="section-heading">
+        <div class="round-icon shield">⬟</div>
+        <div><h2 id="exposure-title">Verificar exposição de senha</h2><p>Verifica se a senha consta na base de dados de senhas expostas, sem enviar a senha original.</p></div>
+      </div>
+
+      <form id="exposure-form">
+        <label for="exposure-password" class="field-label">Senha a verificar</label>
+        <div class="exposure-input-wrap">
+          <input id="exposure-password" type="password" autocomplete="off" spellcheck="false" placeholder="Introduz uma senha" required>
+          <button id="toggle-exposure" type="button" class="input-eye" aria-label="Mostrar senha">◉</button>
+        </div>
+        <button id="exposure-submit" class="primary-button check-button" type="submit"><span>⌕</span> Verificar exposição</button>
+        <div class="info-callout"><span class="info-symbol">ⓘ</span><span>A verificação só começa quando carregares no botão.</span></div>
+        <p id="exposure-status" class="sr-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="result-section">
+        <div class="result-heading"><span>♙</span> Resultado</div>
+        <div class="result-box" id="result-box">
+          <div class="result-shield">⬟</div>
+          <strong id="result-title">Ainda não foi feita nenhuma verificação.</strong>
+          <p id="result-description">Introduz uma senha e carrega em “Verificar exposição”.</p>
+        </div>
+      </div>
+
+      <div class="generated-check">
+        <div class="link-symbol">↗</div>
+        <div class="generated-check-content">
+          <strong>Verificar a senha gerada</strong>
+          <p>Copia a senha gerada no campo de verificação acima.</p>
+          <button type="button" class="secondary-button" id="copy-to-check">▢ &nbsp; Copiar para verificar</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="feature-footer">
+    <div class="feature"><div class="feature-icon">⬟</div><div><strong>Criptografia segura</strong><p>Usa crypto.getRandomValues()<br>para máxima segurança.</p></div></div>
+    <div class="feature"><div class="feature-icon">▣</div><div><strong>Sem armazenamento</strong><p>As senhas não são guardadas<br>no teu dispositivo.</p></div></div>
+    <div class="feature"><div class="feature-icon">◎</div><div><strong>Verificação de exposição</strong><p>Consulta a API Pwned Passwords<br>de forma privada e segura.</p></div></div>
+    <div class="feature"><div class="feature-icon">☷</div><div><strong>Totalmente personalizável</strong><p>Escolhe o comprimento, tipos de caracteres<br>e requisitos mínimos.</p></div></div>
+  </footer>
+</body>
+</html>
